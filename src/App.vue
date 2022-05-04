@@ -1,21 +1,15 @@
 <template>
   <div id="app">
+    <h2>미니 계산기</h2>
+    <router-view/>
     <nav>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/info">info</router-link>
     </nav>
-    <router-view/>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
 nav {
   padding: 30px;
@@ -24,6 +18,7 @@ nav {
 nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration : none;
 }
 
 nav a.router-link-exact-active {
