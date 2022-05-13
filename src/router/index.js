@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AxiosView from '../components/AxiosView.vue'
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,12 @@ const routes = [
     name: 'home',
     component: HomeView
   },
+  {
+    path: '/axios',
+    name: 'axios',
+    component: AxiosView
+  },
+
   {
     path: '/info',
     name: 'info',

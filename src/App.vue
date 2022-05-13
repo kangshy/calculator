@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <h2>미니 계산기</h2>
-    <router-view/>
     <nav>
       <router-link to="/">Home</router-link> |
+      <router-link to="/axios">axios</router-link> |
       <router-link to="/info">info</router-link>
     </nav>
+    <h2>VUE 심화과정 과제</h2>
+    <router-view/>
   </div>
 </template>
 
