@@ -9,18 +9,18 @@
         <button @click="callData">검색</button>
 
         <table v-if='list.length!=0'>
-            <div v-if="mode='doc'">
+            <div v-if="mode=='doc'">
                 <tr>
                     <td colspan=2 align="right">{{this.meta.pageable_count}} / {{this.meta.total_count }}</td>
                 </tr>
                 <tr>
-                    <th>제목</th>
+                    <th>웹검색 결과 제목</th>
                     <th>내용</th>
                 </tr>
                 <tr v-for="(item, index) in list" :key="index">
                     <td>
                         <a :href="item.url" target="_blank">
-                        <span v-html="iteml.title"></span>
+                        <span v-html="item.title"></span>
                         </a>
                     </td>
                     <td>
@@ -28,9 +28,13 @@
                     </td>
                 </tr>
             </div>
-            <div v-else-if="mode='mov'">
+            <div v-else-if="mode=='mov'">
                 <tr>
-                    <th>제목</th>
+                    <td colspan=2 align="right">{{this.meta.pageable_count}} / {{this.meta.total_count }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>동영상 검색 제목</th>
                     <th>내용</th>
                 </tr>
                 <tr v-for="(item, index) in list" :key="index">
@@ -44,9 +48,12 @@
                     </td>
                 </tr>
             </div>
-            <div v-else-if="mode='img'">
+            <div v-else-if="mode=='img'">
                 <tr>
-                    <th>제목</th>
+                    <td colspan=2 align="right">{{this.meta.pageable_count}} / {{this.meta.total_count }}</td>
+                </tr>
+                <tr>
+                    <th>이미지 검색 제목</th>
                     <th>내용</th>
                 </tr>
                 <tr v-for="(item, index) in list" :key="index">
@@ -59,7 +66,6 @@
                 </tr>
             </div>
         </table>
-        <div v-else>검색 결과를 찾을 수 없습니다</div>
     </div>
 </template>
 
@@ -76,10 +82,9 @@ export default {
 
     methods : {
         callData() {
-            //console.log(this.list.length);
+            console.log("[LOG] "+this.mode);
             switch(this.mode){
                 case 'doc' :
-                    console.log(this.mode);
                     this.callWebDoc();
                     break;
                 case 'mov' :
@@ -91,7 +96,7 @@ export default {
             }
         },
         callWebDoc() {
-            axios.get(`https://dapi.kakao.com/v2/search/web`, {
+            axios.get(`https://dapi.kakao.com/v2/search/web?query=${this.search}`, {
                 headers : {
                     Authorization : `KakaoAK ${process.env.VUE_APP_KAKAO_KEY}`
                 }
@@ -104,23 +109,26 @@ export default {
             });
         },
         callMov() {
-            axios.get(`https://dapi.kakao.com/v2/search/vclip`, {
+            axios.get(`https://dapi.kakao.com/v2/search/vclip?query=${this.search}`, {
                 headers : {
                     Authorization : `KakaoAK ${process.env.VUE_APP_KAKAO_KEY}`
                 }
             }).then(response=>{
                 this.list=response.data.documents;
+                this.meta=response.data.meta;
+                console.log(this.list);
             }).catch(error=>{
                 console.error(error);
             });
         },
         callImg() {
-            axios.get(`https://dapi.kakao.com/v2/search/image`, {
+            axios.get(`https://dapi.kakao.com/v2/search/image?query=${this.search}`, {
                 headers : {
                     Authorization : `KakaoAK ${process.env.VUE_APP_KAKAO_KEY}`
                 }
             }).then(response=>{
                 this.list=response.data.documents;
+                this.meta=response.data.meta;
             }).catch(error=>{
                 console.error(error);
             });
